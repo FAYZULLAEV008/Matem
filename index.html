@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Kalkulyatori - Logarifm, Hosila va Geometriya</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f1f3f5;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .tab.active {
+            background: white;
+            border-bottom: 3px solid #1a2a6c;
+            color: #1a2a6c;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .calculator-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+        
+        .explanation-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #1a2a6c;
+            outline: none;
+        }
+        
+        .coefficient-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .coefficient-inputs input {
+            text-align: center;
+        }
+        
+        .trig-inputs, .log-inputs, .derivative-inputs, .geometry-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .trig-inputs input, .trig-inputs select, 
+        .log-inputs input, .log-inputs select,
+        .derivative-inputs input, .derivative-inputs select,
+        .geometry-inputs input, .geometry-inputs select {
+            flex: 1;
+        }
+        
+        button {
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #1a2a6c;
+        }
+        
+        .result h3 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+        }
+        
+        .steps {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .steps li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .example {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .example h4 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-section, .explanation-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .solution-step {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .trig-results, .log-results, .geometry-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .trig-result-item, .log-result-item, .geometry-result-item {
+            padding: 10px;
+            background: #f0f7ff;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .trig-value, .log-value, .geometry-value {
+            font-weight: bold;
+            color: #1a2a6c;
+            font-size: 1.1rem;
+        }
+        
+        .formula-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .formula-table th, .formula-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .formula-table th {
+            background-color: #1a2a6c;
+            color: white;
+        }
+        
+        .formula-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .shape-diagram {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .shape-diagram svg {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Matematika Kalkulyatori</h1>
+            <p class="subtitle">Logarifm, Hosila, Geometriya va Trigonometriya</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="logarithm">Logarifm</div>
+            <div class="tab" data-tab="derivative">Hosila</div>
+            <div class="tab" data-tab="geometry">Geometriya</div>
+            <div class="tab" data-tab="trigonometry">Trigonometriya</div>
+            <div class="tab" data-tab="equation">Tenglama</div>
+        </div>
+        
+        <div class="content">
+            <!-- Logarifm Tab -->
+            <div class="tab-content active" id="logarithm-tab">
+                <div class="calculator-section">
+                    <h2>Logarifm Kalkulyatori</h2>
+                    <p>Logarifm va eksponensial funksiyalarni hisoblang</p>
+                    
+                    <div class="input-group">
+                        <label for="log-base">Logarifm asosi</label>
+                        <input type="number" id="log-base" value="10" min="0" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="log-argument">Logarifm argumenti</label>
+                        <input type="number" id="log-argument" value="100" min="0" step="any">
+                    </div>
+                    
+                    <button id="calculate-log">Hisobla</button>
+                    
+                    <div class="result" id="log-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan qiymatlar bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="exp-base">Eksponensial asos</label>
+                        <input type="number" id="exp-base" value="2" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="exp-exponent">Daraja ko'rsatkichi</label>
+                        <input type="number" id="exp-exponent" value="3" step="any">
+                    </div>
+                    
+                    <button id="calculate-exp">Eksponensialni Hisobla</button>
+                    
+                    <div class="result" id="exp-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan qiymatlar bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-section">
+                    <h2>Logarifm nima?</h2>
+                    <p>Logarifm - berilgan sonni olish uchun logarifm asosini qanday darajaga ko'tarish kerakligini ko'rsatadigan matematik amal.</p>
+                    
+                    <div class="formula">
+                        logₐ(b) = c ⇔ aᶜ = b
+                    </div>
+                    
+                    <h2>Logarifm xossalari</h2>
+                    <ul class="steps">
+                        <li><strong>Ko'paytmani logarifmi:</strong> logₐ(xy) = logₐ(x) + logₐ(y)</li>
+                        <li><strong>Bo'linmani logarifmi:</strong> logₐ(x/y) = logₐ(x) - logₐ(y)</li>
+                        <li><strong>Darajani logarifmi:</strong> logₐ(xᵖ) = p·logₐ(x)</li>
+                        <li><strong>Asosni almashtirish:</strong> logₐ(b) = logₓ(b) / logₓ(a)</li>
+                    </ul>
+                    
+                    <h2>Maxsus logarifmlar</h2>
+                    <div class="formula-table">
+                        <table>
+                            <tr>
+                                <th>Nomi</th>
+                                <th>Belgisi</th>
+                                <th>Asosi</th>
+                            </tr>
+                            <tr>
+                                <td>O'nlik logarifm</td>
+                                <td>log</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>Natural logarifm</td>
+                                <td>ln</td>
+                                <td>e ≈ 2.718</td>
+                            </tr>
+                            <tr>
+                                <td>Ikkilik logarifm</td>
+                                <td>lb</td>
+                                <td>2</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example">
+                        <h4>Misol: log₂(8)</h4>
+                        <p>2 ning qanday darajasi 8 ga teng? 2³ = 8, demak log₂(8) = 3</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hosila Tab -->
+            <div class="tab-content" id="derivative-tab">
+                <div class="calculator-section">
+                    <h2>Hosila Kalkulyatori</h2>
+                    <p>Oddiy funksiyalarning hosilasini toping</p>
+                    
+                    <div class="input-group">
+                        <label for="function-input">Funksiya (x ga nisbatan)</label>
+                        <input type="text" id="function-input" value="x^2" placeholder="Misol: x^2, sin(x), ln(x)">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="derivative-point">Nuqta (ixtiyoriy)</label>
+                        <input type="number" id="derivative-point" value="" placeholder="Nuqtadagi hosilani hisoblash" step="any">
+                    </div>
+                    
+                    <button id="calculate-derivative">Hosilani Top</button>
+                    
+                    <div class="result" id="derivative-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan funksiya bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-section">
+                    <h2>Hosila nima?</h2>
+                    <p>Hosila - funksiyaning o'zgarish tezligini o'lchaydigan asosiy tushuncha. Funksiyaning ma'lum bir nuqtadagi hosilasi, o'sha nuqtadagi egri chiziqqa urinma chiziqning burchak koeffitsientiga teng.</p>
+                    
+                    <div class="formula">
+                        f'(x) = lim<sub>h→0</sub> [f(x+h) - f(x)] / h
+                    </div>
+                    
+                    <h2>Asosiy hosila qoidalari</h2>
+                    <div class="formula-table">
+                        <table>
+                            <tr>
+                                <th>Funksiya</th>
+                                <th>Hosila</th>
+                            </tr>
+                            <tr>
+                                <td>c (doimiy)</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>xⁿ</td>
+                                <td>n·xⁿ⁻¹</td>
+                            </tr>
+                            <tr>
+                                <td>sin(x)</td>
+                                <td>cos(x)</td>
+                            </tr>
+                            <tr>
+                                <td>cos(x)</td>
+                                <td>-sin(x)</td>
+                            </tr>
+                            <tr>
+                                <td>eˣ</td>
+                                <td>eˣ</td>
+                            </tr>
+                            <tr>
+                                <td>ln(x)</td>
+                                <td>1/x</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <h2>Hosila qoidalari</h2>
+                    <ul class="steps">
+                        <li><strong>Yig'indining hosilasi:</strong> (f+g)' = f' + g'</li>
+                        <li><strong>Ayirmaning hosilasi:</strong> (f-g)' = f' - g'</li>
+                        <li><strong>Ko'paytmaning hosilasi:</strong> (f·g)' = f'·g + f·g'</li>
+                        <li><strong>Bo'linmaning hosilasi:</strong> (f/g)' = (f'·g - f·g') / g²</li>
+                        <li><strong>Murakkab funksiya hosilasi:</strong> (f(g(x)))' = f'(g(x))·g'(x)</li>
+                    </ul>
+                    
+                    <div class="example">
+                        <h4>Misol: f(x) = x³ hosilasi</h4>
+                        <p>f'(x) = 3x²</p>
+                        <p>x=2 nuqtada: f'(2) = 3·2² = 12</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Geometriya Tab -->
+            <div class="tab-content" id="geometry-tab">
+                <div class="calculator-section">
+                    <h2>Geometriya Kalkulyatori</h2>
+                    <p>Geometrik shakllarning parametrlarini hisoblang</p>
+                    
+                    <div class="input-group">
+                        <label for="shape-select">Shakl tanlang</label>
+                        <select id="shape-select">
+                            <option value="circle">Doira</option>
+                            <option value="rectangle">To'rtburchak</option>
+                            <option value="triangle">Uchburchak</option>
+                            <option value="sphere">Sfera</option>
+                            <option value="cylinder">Silindr</option>
+                        </select>
+                    </div>
+                    
+                    <div id="circle-inputs" class="shape-inputs">
+                        <div class="input-group">
+                            <label for="circle-radius">Radius (r)</label>
+                            <input type="number" id="circle-radius" value="5" min="0" step="any">
+                        </div>
+                    </div>
+                    
+                    <div id="rectangle-inputs" class="shape-inputs" style="display:none">
+                        <div class="input-group">
+                            <label for="rectangle-length">Uzunlik (a)</label>
+                            <input type="number" id="rectangle-length" value="4" min="0" step="any">
+                        </div>
+                        <div class="input-group">
+                            <label for="rectangle-width">Eni (b)</label>
+                            <input type="number" id="rectangle-width" value="3" min="0" step="any">
+                        </div>
+                    </div>
+                    
+                    <div id="triangle-inputs" class="shape-inputs" style="display:none">
+                        <div class="input-group">
+                            <label for="triangle-base">Asos (a)</label>
+                            <input type="number" id="triangle-base" value="6" min="0" step="any">
+                        </div>
+                        <div class="input-group">
+                            <label for="triangle-height">Balandlik (h)</label>
+                            <input type="number" id="triangle-height" value="4" min="0" step="any">
+                        </div>
+                    </div>
+                    
+                    <div id="sphere-inputs" class="shape-inputs" style="display:none">
+                        <div class="input-group">
+                            <label for="sphere-radius">Radius (r)</label>
+                            <input type="number" id="sphere-radius" value="3" min="0" step="any">
+                        </div>
+                    </div>
+                    
+                    <div id="cylinder-inputs" class="shape-inputs" style="display:none">
+                        <div class="input-group">
+                            <label for="cylinder-radius">Radius (r)</label>
+                            <input type="number" id="cylinder-radius" value="3" min="0" step="any">
+                        </div>
+                        <div class="input-group">
+                            <label for="cylinder-height">Balandlik (h)</label>
+                            <input type="number" id="cylinder-height" value="5" min="0" step="any">
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-geometry">Hisobla</button>
+                    
+                    <div class="result" id="geometry-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan qiymatlar bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-section">
+                    <h2>Geometrik formulalar</h2>
+                    
+                    <h3>Doira</h3>
+                    <ul class="steps">
+                        <li><strong>Yuzi:</strong> S = πr²</li>
+                        <li><strong>Uzunligi:</strong> C = 2πr</li>
+                    </ul>
+                    
+                    <h3>To'rtburchak</h3>
+                    <ul class="steps">
+                        <li><strong>Yuzi:</strong> S = a·b</li>
+                        <li><strong>Perimetri:</strong> P = 2(a+b)</li>
+                    </ul>
+                    
+                    <h3>Uchburchak</h3>
+                    <ul class="steps">
+                        <li><strong>Yuzi:</strong> S = ½·a·h</li>
+                        <li><strong>Perimetri:</strong> P = a+b+c</li>
+                    </ul>
+                    
+                    <h3>Sfera</h3>
+                    <ul class="steps">
+                        <li><strong>Hajmi:</strong> V = (4/3)πr³</li>
+                        <li><strong>Sirti:</strong> A = 4πr²</li>
+                    </ul>
+                    
+                    <h3>Silindr</h3>
+                    <ul class="steps">
+                        <li><strong>Hajmi:</strong> V = πr²h</li>
+                        <li><strong>Sirti:</strong> A = 2πr(h+r)</li>
+                    </ul>
+                    
+                    <div class="example">
+                        <h4>Misol: Radiusi 5 bo'lgan doira</h4>
+                        <p>Yuzi: S = π·5² = 25π ≈ 78.54</p>
+                        <p>Aylana uzunligi: C = 2π·5 = 10π ≈ 31.42</p>
+                    </div>
+                    
+                    <div class="shape-diagram">
+                        <h3>Geometrik shakllar</h3>
+                        <svg viewBox="0 0 200 100">
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#1a2a6c" stroke-width="2"/>
+                            <rect x="100" y="20" width="60" height="60" fill="none" stroke="#b21f1f" stroke-width="2"/>
+                            <polygon points="180,20 160,80 200,80" fill="none" stroke="#fdbb2d" stroke-width="2"/>
+                            <text x="50" y="90" text-anchor="middle" font-size="10">Doira</text>
+                            <text x="130" y="90" text-anchor="middle" font-size="10">To'rtburchak</text>
+                            <text x="180" y="90" text-anchor="middle" font-size="10">Uchburchak</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trigonometriya Tab -->
+            <div class="tab-content" id="trigonometry-tab">
+                <div class="calculator-section">
+                    <h2>Trigonometriya Kalkulyatori</h2>
+                    <p>Trigonometrik funksiyalarni hisoblang va konvertatsiya qiling</p>
+                    
+                    <div class="input-group">
+                        <label for="trig-value">Qiymat</label>
+                        <input type="number" id="trig-value" value="30" step="any">
+                    </div>
+                    
+                    <div class="trig-inputs">
+                        <div class="input-group">
+                            <label for="angle-unit">Birlik</label>
+                            <select id="angle-unit">
+                                <option value="deg">Daragaja (°)</option>
+                                <option value="rad">Radian</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="trig-function">Funksiya</label>
+                            <select id="trig-function">
+                                <option value="sin">Sinus (sin)</option>
+                                <option value="cos">Kosinus (cos)</option>
+                                <option value="tan">Tangens (tan)</option>
+                                <option value="all">Barchasi</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-trig">Hisobla</button>
+                    
+                    <div class="result" id="trig-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan qiymatlar bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-section">
+                    <h2>Trigonometriya asoslari</h2>
+                    <p>Trigonometriya - uchburchaklar va ularning tomonlari va burchaklari o'rtasidagi munosabatlarni o'rganadigan matematika sohasi.</p>
+                    
+                    <h2>Asosiy trigonometrik funksiyalar</h2>
+                    <div class="formula">
+                        sin(θ) = Qarama-qarshi tomon / Gipotenuzа
+                    </div>
+                    <div class="formula">
+                        cos(θ) = Yon tomon / Gipotenuzа
+                    </div>
+                    <div class="formula">
+                        tan(θ) = Qarama-qarshi tomon / Yon tomon
+                    </div>
+                    
+                    <h2>Muhim burchak qiymatlari</h2>
+                    <div class="formula-table">
+                        <table>
+                            <tr>
+                                <th>Burchak</th>
+                                <th>sin</th>
+                                <th>cos</th>
+                                <th>tan</th>
+                            </tr>
+                            <tr>
+                                <td>0°</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>30°</td>
+                                <td>1/2</td>
+                                <td>√3/2</td>
+                                <td>√3/3</td>
+                            </tr>
+                            <tr>
+                                <td>45°</td>
+                                <td>√2/2</td>
+                                <td>√2/2</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>60°</td>
+                                <td>√3/2</td>
+                                <td>1/2</td>
+                                <td>√3</td>
+                            </tr>
+                            <tr>
+                                <td>90°</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>∞</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tenglama Tab -->
+            <div class="tab-content" id="equation-tab">
+                <div class="calculator-section">
+                    <h2>Kvadrat Tenglama Kalkulyatori</h2>
+                    <p>ax² + bx + c = 0 ko'rinishidagi kvadrat tenglamani yeching</p>
+                    
+                    <div class="coefficient-inputs">
+                        <div class="input-group">
+                            <label for="a">a koeffitsienti</label>
+                            <input type="number" id="a" value="1" step="any">
+                        </div>
+                        <div class="input-group">
+                            <label for="b">b koeffitsienti</label>
+                            <input type="number" id="b" value="-3" step="any">
+                        </div>
+                        <div class="input-group">
+                            <label for="c">c koeffitsienti</label>
+                            <input type="number" id="c" value="2" step="any">
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-equation">Hisobla</button>
+                    
+                    <div class="result" id="equation-result">
+                        <h3>Natija</h3>
+                        <p>Kiritilgan qiymatlar bo'yicha natija shu yerda ko'rsatiladi.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-section">
+                    <h2>Diskriminant nima?</h2>
+                    <p>Diskriminant kvadrat tenglamaning ildizlari soni va turini aniqlash uchun ishlatiladigan formuladir.</p>
+                    
+                    <div class="formula">
+                        D = b² - 4ac
+                    </div>
+                    
+                    <p>Diskriminant qiymatiga qarab:</p>
+                    <ul class="steps">
+                        <li><strong>D > 0</strong> bo'lsa, tenglamaning ikkita haqiqiy ildizi bor</li>
+                        <li><strong>D = 0</strong> bo'lsa, tenglamaning bitta haqiqiy ildizi bor (ikki marta takrorlanuvchi)</li>
+                        <li><strong>D < 0</strong> bo'lsa, tenglamaning haqiqiy ildizlari yo'q (kompleks ildizlar)</li>
+                    </ul>
+                    
+                    <h2>Kvadrat tenglama formulasi</h2>
+                    <div class="formula">
+                        x = (-b ± √D) / (2a)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab funksionalligi
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Barcha tab va kontentlarni deaktiv qilish
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Faqat tanlangan tab va kontentni aktiv qilish
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Geometriya shakl tanlash
+        document.getElementById('shape-select').addEventListener('change', function() {
+            // Barcha shape inputlarni yashirish
+            document.querySelectorAll('.shape-inputs').forEach(input => {
+                input.style.display = 'none';
+            });
+            
+            // Tanlangan shakl inputlarini ko'rsatish
+            const selectedShape = this.value;
+            document.getElementById(selectedShape + '-inputs').style.display = 'block';
+        });
+        
+        // Logarifm hisoblash
+        document.getElementById('calculate-log').addEventListener('click', function() {
+            const base = parseFloat(document.getElementById('log-base').value);
+            const argument = parseFloat(document.getElementById('log-argument').value);
+            
+            if (isNaN(base) || isNaN(argument)) {
+                document.getElementById('log-result').innerHTML = '<h3>Xatolik</h3><p>Iltimos, barcha qiymatlarni to\'g\'ri kiriting.</p>';
+                return;
+            }
+            
+            if (base <= 0 || base === 1) {
+                document.getElementById('log-result').innerHTML = '<h3>Xatolik</h3><p>Logarifm asosi 0 dan katta va 1 ga teng bo\'lmasligi kerak.</p>';
+                return;
+            }
+            
+            if (argument <= 0) {
+                document.getElementById('log-result').innerHTML = '<h3>Xatolik</h3><p>Logarifm argumenti 0 dan katta bo\'lishi kerak.</p>';
+                return;
+            }
+            
+            const logValue = Math.log(argument) / Math.log(base);
+            
+            let resultHTML = `<h3>Natija</h3>`;
+            resultHTML += `<div class="solution-step">log<sub>${base}</sub>(${argument}) = ${formatNumber(logValue)}</div>`;
+            resultHTML += `<div class="solution-step">Tekshirish: ${base}<sup>${formatNumber(logValue)}</sup> = ${formatNumber(Math.pow(base, logValue))}</div>`;
+            
+            document.getElementById('log-result').innerHTML = resultHTML;
+        });
+        
+        // Eksponensial hisoblash
+        document.getElementById('calculate-exp').addEventListener('click', function() {
+            const base = parseFloat(document.getElementById('exp-base').value);
+            const exponent = parseFloat(document.getElementById('exp-exponent').value);
+            
+            if (isNaN(base) || isNaN(exponent)) {
+                document.getElementById('exp-result').innerHTML = '<h3>Xatolik</h3><p>Iltimos, barcha qiymatlarni to\'g\'ri kiriting.</p>';
+                return;
+            }
+            
+            const expValue = Math.pow(base, exponent);
+            
+            let resultHTML = `<h3>Natija</h3>`;
+            resultHTML += `<div class="solution-step">${base}<sup>${exponent}</sup> = ${formatNumber(expValue)}</div>`;
+            
+            document.getElementById('exp-result').innerHTML = resultHTML;
+        });
+        
+        // Hosila hisoblash
+        document.getElementById('calculate-derivative').addEventListener('click', function() {
+            const funcInput = document.getElementById('function-input').value.trim();
+            const point = document.getElementById('derivative-point').value;
+            
+            if (!funcInput) {
+                document.getElementById('derivative-result').innerHTML = '<h3>Xatolik</h3><p>Iltimos, funksiyani kiriting.</p>';
+                return;
+            }
+            
+            let resultHTML = `<h3>Natija</h3>`;
+            
+            // Oddiy funksiyalarni aniqlash
+            if (funcInput === 'x^2' || funcInput === 'x²') {
+                resultHTML += `<div class="solution-step">f(x) = x²</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = 2x</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(2*x)}</div>`;
+                }
+            } else if (funcInput === 'x^3' || funcInput === 'x³') {
+                resultHTML += `<div class="solution-step">f(x) = x³</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = 3x²</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(3*x*x)}</div>`;
+                }
+            } else if (funcInput === 'sin(x)') {
+                resultHTML += `<div class="solution-step">f(x) = sin(x)</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = cos(x)</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(Math.cos(x))}</div>`;
+                }
+            } else if (funcInput === 'cos(x)') {
+                resultHTML += `<div class="solution-step">f(x) = cos(x)</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = -sin(x)</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(-Math.sin(x))}</div>`;
+                }
+            } else if (funcInput === 'e^x' || funcInput === 'exp(x)') {
+                resultHTML += `<div class="solution-step">f(x) = eˣ</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = eˣ</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(Math.exp(x))}</div>`;
+                }
+            } else if (funcInput === 'ln(x)' || funcInput === 'log(x)') {
+                resultHTML += `<div class="solution-step">f(x) = ln(x)</div>`;
+                resultHTML += `<div class="solution-step">f'(x) = 1/x</div>`;
+                
+                if (point && !isNaN(parseFloat(point))) {
+                    const x = parseFloat(point);
+                    if (x > 0) {
+                        resultHTML += `<div class="solution-step">f'(${point}) = ${formatNumber(1/x)}</div>`;
+                    } else {
+                        resultHTML += `<div class="solution-step">f'(${point}) = aniqlanmagan (x > 0 bo'lishi kerak)</div>`;
+                    }
+                }
+            } else {
+                resultHTML += `<div class="solution-step">Kiritilgan funksiya aniqlanmadi. Quyidagi funksiyalardan foydalaning: x^2, x^3, sin(x), cos(x), e^x, ln(x)</div>`;
+            }
+            
+            document.getElementById('derivative-result').innerHTML = resultHTML;
+        });
+        
+        // Geometriya hisoblash
+        document.getElementById('calculate-geometry').addEventListener('click', function() {
+            const shape = document.getElementById('shape-select').value;
+            let resultHTML = `<h3>Natija</h3>`;
+            
+            if (shape === 'circle') {
+                const radius = parseFloat(document.getElementById('circle-radius').value);
+                if (isNaN(radius) || radius < 0) {
+                    resultHTML += `<div class="solution-step">Xatolik: Radiusni to'g'ri kiriting</div>`;
+                } else {
+                    const area = Math.PI * radius * radius;
+                    const circumference = 2 * Math.PI * radius;
+                    resultHTML += `<div class="solution-step">Doira yuzi: S = πr² = π × ${radius}² = ${formatNumber(area)}</div>`;
+                    resultHTML += `<div class="solution-step">Aylana uzunligi: C = 2πr = 2π × ${radius} = ${formatNumber(circumference)}</div>`;
+                }
+            } else if (shape === 'rectangle') {
+                const length = parseFloat(document.getElementById('rectangle-length').value);
+                const width = parseFloat(document.getElementById('rectangle-width').value);
+                if (isNaN(length) || isNaN(width) || length < 0 || width < 0) {
+                    resultHTML += `<div class="solution-step">Xatolik: Uzunlik va enni to'g'ri kiriting</div>`;
+                } else {
+                    const area = length * width;
+                    const perimeter = 2 * (length + width);
+                    resultHTML += `<div class="solution-step">To'rtburchak yuzi: S = a × b = ${length} × ${width} = ${formatNumber(area)}</div>`;
+                    resultHTML += `<div class="solution-step">Perimetr: P = 2(a+b) = 2(${length}+${width}) = ${formatNumber(perimeter)}</div>`;
+                }
+            } else if (shape === 'triangle') {
+                const base = parseFloat(document.getElementById('triangle-base').value);
+                const height = parseFloat(document.getElementById('triangle-height').value);
+                if (isNaN(base) || isNaN(height) || base < 0 || height < 0) {
+                    resultHTML += `<div class="solution-step">Xatolik: Asos va balandlikni to'g'ri kiriting</div>`;
+                } else {
+                    const area = 0.5 * base * height;
+                    resultHTML += `<div class="solution-step">Uchburchak yuzi: S = ½ × a × h = ½ × ${base} × ${height} = ${formatNumber(area)}</div>`;
+                }
+            } else if (shape === 'sphere') {
+                const radius = parseFloat(document.getElementById('sphere-radius').value);
+                if (isNaN(radius) || radius < 0) {
+                    resultHTML += `<div class="solution-step">Xatolik: Radiusni to'g'ri kiriting</div>`;
+                } else {
+                    const volume = (4/3) * Math.PI * Math.pow(radius, 3);
+                    const surfaceArea = 4 * Math.PI * radius * radius;
+                    resultHTML += `<div class="solution-step">Sfera hajmi: V = (4/3)πr³ = (4/3)π × ${radius}³ = ${formatNumber(volume)}</div>`;
+                    resultHTML += `<div class="solution-step">Sirt yuzi: A = 4πr² = 4π × ${radius}² = ${formatNumber(surfaceArea)}</div>`;
+                }
+            } else if (shape === 'cylinder') {
+                const radius = parseFloat(document.getElementById('cylinder-radius').value);
+                const height = parseFloat(document.getElementById('cylinder-height').value);
+                if (isNaN(radius) || isNaN(height) || radius < 0 || height < 0) {
+                    resultHTML += `<div class="solution-step">Xatolik: Radius va balandlikni to'g'ri kiriting</div>`;
+                } else {
+                    const volume = Math.PI * radius * radius * height;
+                    const surfaceArea = 2 * Math.PI * radius * (height + radius);
+                    resultHTML += `<div class="solution-step">Silindr hajmi: V = πr²h = π × ${radius}² × ${height} = ${formatNumber(volume)}</div>`;
+                    resultHTML += `<div class="solution-step">Sirt yuzi: A = 2πr(h+r) = 2π × ${radius} × (${height}+${radius}) = ${formatNumber(surfaceArea)}</div>`;
+                }
+            }
+            
+            document.getElementById('geometry-result').innerHTML = resultHTML;
+        });
+        
+        // Trigonometriya hisoblash
+        document.getElementById('calculate-trig').addEventListener('click', function() {
+            const value = parseFloat(document.getElementById('trig-value').value);
+            const unit = document.getElementById('angle-unit').value;
+            const func = document.getElementById('trig-function').value;
+            
+            if (isNaN(value)) {
+                document.getElementById('trig-result').innerHTML = '<h3>Xatolik</h3><p>Iltimos, burchak qiymatini to\'g\'ri kiriting.</p>';
+                return;
+            }
+            
+            let angle = value;
+            if (unit === 'deg') {
+                angle = value * Math.PI / 180; // Darajani radianga aylantirish
+            }
+            
+            let resultHTML = `<h3>Natija</h3>`;
+            resultHTML += `<div class="solution-step">Berilgan burchak: ${value} ${unit === 'deg' ? '°' : 'radian'}</div>`;
+            
+            if (func === 'all') {
+                resultHTML += `<div class="trig-results">`;
+                resultHTML += `<div class="trig-result-item">sin(${value}${unit === 'deg' ? '°' : ''}) = <span class="trig-value">${formatNumber(Math.sin(angle))}</span></div>`;
+                resultHTML += `<div class="trig-result-item">cos(${value}${unit === 'deg' ? '°' : ''}) = <span class="trig-value">${formatNumber(Math.cos(angle))}</span></div>`;
+                resultHTML += `<div class="trig-result-item">tan(${value}${unit === 'deg' ? '°' : ''}) = <span class="trig-value">${formatNumber(Math.tan(angle))}</span></div>`;
+                resultHTML += `<div class="trig-result-item">cot(${value}${unit === 'deg' ? '°' : ''}) = <span class="trig-value">${formatNumber(1/Math.tan(angle))}</span></div>`;
+                resultHTML += `</div>`;
+            } else {
+                let funcValue;
+                let funcName;
+                
+                switch(func) {
+                    case 'sin':
+                        funcValue = Math.sin(angle);
+                        funcName = 'sinus';
+                        break;
+                    case 'cos':
+                        funcValue = Math.cos(angle);
+                        funcName = 'kosinus';
+                        break;
+                    case 'tan':
+                        funcValue = Math.tan(angle);
+                        funcName = 'tangens';
+                        break;
+                }
+                
+                resultHTML += `<div class="solution-step">${funcName}(${value}${unit === 'deg' ? '°' : ''}) = <span class="trig-value">${formatNumber(funcValue)}</span></div>`;
+                
+                // Qo'shimcha ma'lumotlar
+                if (func === 'tan' && Math.abs(funcValue) > 1000000) {
+                    resultHTML += `<div class="solution-step">Eslatma: Tangens funksiya bu burchakda aniqlanmagan (90° yoki 270° ga yaqin)</div>`;
+                }
+            }
+            
+            document.getElementById('trig-result').innerHTML = resultHTML;
+        });
+        
+        // Kvadrat tenglama hisoblash
+        document.getElementById('calculate-equation').addEventListener('click', function() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                document.getElementById('equation-result').innerHTML = '<h3>Xatolik</h3><p>Iltimos, barcha koeffitsientlarni to\'g\'ri kiriting.</p>';
+                return;
+            }
+            
+            if (a === 0) {
+                document.getElementById('equation-result').innerHTML = '<h3>Xatolik</h3><p>a koeffitsienti 0 ga teng bo\'lmasligi kerak.</p>';
+                return;
+            }
+            
+            const discriminant = b * b - 4 * a * c;
+            let resultHTML = `<h3>Natija</h3>`;
+            resultHTML += `<div class="solution-step">Berilgan tenglama: ${formatEquation(a, b, c)} = 0</div>`;
+            resultHTML += `<div class="solution-step">Diskriminant: D = b² - 4ac = ${b}² - 4×${a}×${c} = ${discriminant}</div>`;
+            
+            if (discriminant > 0) {
+                const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                resultHTML += `<div class="solution-step">D > 0: Tenglamaning ikkita haqiqiy ildizi bor</div>`;
+                resultHTML += `<div class="solution-step">x₁ = (-b + √D)/(2a) = (${-b} + √${discriminant})/(2×${a}) = ${formatNumber(x1)}</div>`;
+                resultHTML += `<div class="solution-step">x₂ = (-b - √D)/(2a) = (${-b} - √${discriminant})/(2×${a}) = ${formatNumber(x2)}</div>`;
+            } else if (discriminant === 0) {
+                const x = -b / (2 * a);
+                resultHTML += `<div class="solution-step">D = 0: Tenglamaning bitta haqiqiy ildizi bor</div>`;
+                resultHTML += `<div class="solution-step">x = -b/(2a) = ${-b}/(2×${a}) = ${formatNumber(x)}</div>`;
+            } else {
+                resultHTML += `<div class="solution-step">D < 0: Tenglamaning haqiqiy ildizlari yo'q</div>`;
+                resultHTML += `<div class="solution-step">Kompleks ildizlar: x = ${formatNumber(-b/(2*a))} ± ${formatNumber(Math.sqrt(-discriminant)/(2*a))}i</div>`;
+            }
+            
+            document.getElementById('equation-result').innerHTML = resultHTML;
+        });
+        
+        // Yordamchi funksiyalar
+        function formatEquation(a, b, c) {
+            let equation = '';
+            
+            if (a !== 0) {
+                equation += (a === 1) ? 'x²' : (a === -1) ? '-x²' : `${a}x²`;
+            }
+            
+            if (b !== 0) {
+                if (b > 0 && equation !== '') equation += ' + ';
+                else if (b < 0) equation += ' - ';
+                equation += (Math.abs(b) === 1) ? 'x' : `${Math.abs(b)}x`;
+            }
+            
+            if (c !== 0) {
+                if (c > 0 && equation !== '') equation += ' + ';
+                else if (c < 0) equation += ' - ';
+                equation += `${Math.abs(c)}`;
+            }
+            
+            return equation || '0';
+        }
+        
+        function formatNumber(num) {
+            // Sonni yaxlitlash va keraksiz nollarni olib tashlash
+            if (Math.abs(num) < 0.0000001) return '0';
+            return Math.abs(num - Math.round(num)) < 0.0001 ? Math.round(num) : parseFloat(num.toFixed(6));
+        }
+    </script>
+</body>
+</html>
